@@ -269,9 +269,18 @@
         if (d) return JSON.parse(d);
       } catch { /* אין גישה ל-localStorage */ }
     }
-    const r = await fetch('content.json', { cache: 'no-cache' });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return r.json();
+    try {
+      const r = await fetch('content.json', { cache: 'no-cache' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.json();
+    } catch (err) {
+      // סינון (למשל נטפרי) שחוסם JSON ב-github.io: אותו קובץ מ-raw.githubusercontent.com
+      const owner = location.hostname.match(/^([^.]+)\.github\.io$/i)?.[1];
+      if (!owner) throw err;
+      const r = await fetch(`https://raw.githubusercontent.com/${owner}/${owner}.github.io/main/content.json`, { cache: 'no-cache' });
+      if (!r.ok) throw err;
+      return r.json();
+    }
   }
 
   load().then(render).catch((err) => {
