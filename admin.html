@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>עריכת האתר</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%8F%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/admin.css">
+</head>
+<body class="admin">
+  <header class="admin-top">
+    <div class="admin-top-inner">
+      <a class="brand" href="./" title="לאתר"><span class="brand-logo">✎</span><span>עריכת האתר</span></a>
+      <span class="status" id="status" role="status"></span>
+      <div class="top-actions">
+        <a class="btn btn-ghost btn-sm only-narrow" id="open-preview" href="index.html?preview=1" target="_blank">תצוגה מקדימה</a>
+        <button class="btn btn-ghost btn-sm" id="gh-toggle" type="button">חיבור ל-GitHub</button>
+        <button class="btn btn-primary btn-sm" id="save" type="button">שמירה ופרסום</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-grid">
+    <div class="editor">
+      <div class="notice" id="restore" hidden>
+        <p>יש שינויים מהפעם הקודמת שלא נשמרו.</p>
+        <div class="notice-actions">
+          <button class="btn btn-primary btn-sm" id="restore-yes" type="button">לשחזר אותם</button>
+          <button class="btn btn-ghost btn-sm" id="restore-no" type="button">למחוק</button>
+        </div>
+      </div>
+
+      <section class="panel" id="gh-panel" hidden>
+        <h2>חיבור ל-GitHub</h2>
+        <p class="hint">כדי לשמור שינויים ולהעלות תמונות, העמוד צריך הרשאת כתיבה לריפו של האתר. ההרשאה נשמרת רק בדפדפן הזה.</p>
+        <details class="howto">
+          <summary>איך יוצרים מפתח גישה (פעם אחת)</summary>
+          <ol>
+            <li>נכנסים ל-<a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">יצירת מפתח חדש ב-GitHub</a>.</li>
+            <li>נותנים שם (למשל ״עריכת האתר״) ובוחרים תוקף.</li>
+            <li>תחת <b>Repository access</b> בוחרים <b>Only select repositories</b> ואת ריפו האתר.</li>
+            <li>תחת <b>Permissions</b>, ב-<b>Contents</b> בוחרים <b>Read and write</b>.</li>
+            <li>לוחצים <b>Generate token</b>, מעתיקים ומדביקים כאן.</li>
+          </ol>
+        </details>
+        <div class="row-2">
+          <label class="f"><span>משתמש</span><input id="gh-owner" dir="ltr" autocomplete="off"></label>
+          <label class="f"><span>ריפו</span><input id="gh-repo" dir="ltr" autocomplete="off"></label>
+        </div>
+        <label class="f"><span>מפתח גישה (token)</span><input id="gh-token" type="password" dir="ltr" autocomplete="off" placeholder="github_pat_…"></label>
+        <label class="check"><input type="checkbox" id="gh-remember" checked> לזכור בדפדפן הזה</label>
+        <div class="panel-actions">
+          <button class="btn btn-primary btn-sm" id="gh-connect" type="button">התחברות</button>
+          <button class="btn btn-ghost btn-sm" id="gh-logout" type="button" hidden>התנתקות</button>
+        </div>
+        <p class="hint" id="gh-msg" role="status"></p>
+      </section>
+
+      <div id="form"></div>
+
+      <section class="panel tools">
+        <h2>גיבוי</h2>
+        <p class="hint">אפשר גם להוריד את קובץ התוכן ולהעלות אותו ידנית לריפו.</p>
+        <div class="panel-actions">
+          <button class="btn btn-ghost btn-sm" id="download" type="button">הורדת content.json</button>
+          <label class="btn btn-ghost btn-sm">טעינת קובץ<input type="file" id="import" accept="application/json,.json" hidden></label>
+          <button class="btn btn-ghost btn-sm" id="revert" type="button">ביטול כל השינויים</button>
+        </div>
+      </section>
+    </div>
+
+    <aside class="preview">
+      <div class="preview-bar">
+        <span>תצוגה מקדימה</span>
+        <div class="seg" role="group" aria-label="רוחב תצוגה">
+          <button type="button" data-w="100%" aria-pressed="true">מחשב</button>
+          <button type="button" data-w="390px" aria-pressed="false">טלפון</button>
+        </div>
+      </div>
+      <div class="preview-stage"><iframe id="preview" title="תצוגה מקדימה של האתר"></iframe></div>
+    </aside>
+  </div>
+
+  <script src="assets/admin.js"></script>
+</body>
+</html>
